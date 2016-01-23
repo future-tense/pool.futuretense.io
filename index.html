@@ -1,0 +1,147 @@
+<html>
+	<head>
+		<title>pool.futuretense.io</title>
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
+        <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body>
+        <div class="container">
+
+            <div style="height:30px"></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Earn a one per cent interest on your XLM holdings.</h1>
+                </div>
+            </div>
+
+            <div style="height:60px"></div>
+
+            <div class="row">
+                <div class="col-xs-10">
+                    <h2>
+                        The Stellar network has a built-in inflation mechanism, which expands the currency supply by one per cent annually.
+                    </h2>
+                </div>
+            </div>
+
+            <div style="height:40px"></div>
+
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-2">
+                    <h2>
+                        Once a week, the Stellar network calculates what the top inflation destinations are,
+                        and distributes that weeks inflation to any destination with more than 0.05% of the votes.
+                    </h2>
+                </div>
+            </div>
+
+            <div style="height:40px"></div>
+
+            <div class="row">
+                <div class="col-xs-10">
+                    <h2>
+                        Currently that threshold equals 50 million XLM, which is out-of-reach for most individuals.
+                        <b>To solve that, we created a pool.</b>
+                    </h2>
+                </div>
+            </div>
+
+            <div style="height:40px"></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 style="text-align:center">Join today!</h1>
+                </div>
+            </div>
+
+            <div style="height:30px"></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <form class="form-inline">
+                        <div style="display:inline-block">
+                            <input id="seed" type="text" placeholder="Secret key">
+                            <button class="btn btn-success" type="button" onclick="signup()">Sign up</button>
+                        </div>
+                        <div id="msg"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div style="height:60px"></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Can I trust you with my secret key?</h2>
+                    <p>
+                        The website source code is published on GitHub, at <a target="_blank" href="https://github.com/johansten/pool.futuretense.io">https://github.com/johansten/pool.futuretense.io</a>
+                    </p>
+                    <ul>
+                        <li>
+                            <p>
+                            There you should check out inflation-pool.js, to verify that the key is only used to sign
+                            a setOptions-operation that sets your inflation destination to the pool accountId.
+                            </p>
+                        </li>
+                    </ul>
+                    <p>
+                        After that, verify that stellar-sdk.min.js hasn't been modified:
+                    </p>
+
+                    <ul>
+                        <li>
+                            Download and perform a checksum on the official stellar.org code
+<pre>
+$git clone --branch v0.3.5 git@github.com:stellar/bower-js-stellar-sdk.git
+$shasum -a 256 bower-js-stellar-sdk/stellar-sdk.min.js
+04dbcbc3c74bada7822e344bfe98f77b07cf5728110bec2b7b90eef0fb644aaa  bower-js-stellar-sdk/stellar-sdk.min.js
+</pre>
+                        </li>
+                        <li>
+                            Download the version we're hosting, and compare
+<pre>
+$wget https://pool.futuretense.io/bower_components/stellar-sdk/stellar-sdk.min.js
+$shasum -a 256 stellar-sdk.min.js
+04dbcbc3c74bada7822e344bfe98f77b07cf5728110bec2b7b90eef0fb644aaa  stellar-sdk.min.js
+</pre>
+                        </li>
+                    </ul>
+
+                    <h2>What is the accountId of the pool?</h2>
+                    <p>
+                        GBL7AE2HGRNQSPWV56ZFLILXNT52QWSMOQGDBBXYOP7XKMQTCKVMX2ZL
+                    </p>
+
+                    <h2>How are the funds secured?</h2>
+                    <p>
+                        The pool account is (currently) set up as a 3-of-3 multi-signature account.
+                        The signers are Dzham, Powderfan, and Sacarlson from the <a target="_blank" href="http://slack.stellar.org">Stellar-public</a> Slack.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="height:60px"></div>
+
+        <script src="bower_components/stellar-sdk/stellar-sdk.min.js"></script>
+        <script src="inflation-pool.js"></script>
+        <script>
+            var signup = function () {
+                var seed = document.getElementById('seed').value;
+                var span = document.getElementById('msg');
+                setInflationDest(seed, 'GBL7AE2HGRNQSPWV56ZFLILXNT52QWSMOQGDBBXYOP7XKMQTCKVMX2ZL')
+                .catch(function (err) {
+                    var txt = document.createTextNode('Signup failed.');
+                    span.appendChild(txt);
+                })
+                .then(function (res) {
+                    var txt = document.createTextNode('Successful signup!');
+                    span.appendChild(txt);
+                });
+            };
+        </script>
+	</body>
+</html>

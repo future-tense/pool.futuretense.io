@@ -1,0 +1,37 @@
+form {
+	text-align: center;
+}
+
+body {
+	padding: 0;
+	font-family: "Roboto", sans-serif;
+	color: #666;
+}
+
+h1, h2, h3 {
+	color: #292929;
+}
+
+h1 {
+	font-size: 52px;
+	font-weight: 300;
+}
+
+h2 {
+	font-size: 32px;
+	font-weight: 100;
+}
+
+h3 {
+	font-weight: 600;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+
+p, span {
+	font-weight: 400;
+}
+
+#seed {
+	width: 512px;
+}
