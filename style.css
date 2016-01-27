@@ -35,3 +35,8 @@ p, span {
 #seed {
 	width: 512px;
 }
+
+table > tbody > tr > th:nth-child(2),
+table > tbody > tr > td:nth-child(2) {
+	text-align: right;
+}
