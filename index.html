@@ -91,37 +91,24 @@
 						in order for us to sign a "Set Options"-transaction on your behalf, so you can join the pool.
 					</p>
 					<p>
-						So in short -- Yes, we would like to think that you can trust us. If you want to be 100 per cent certain,
-						the website source code is published on GitHub, at <a target="_blank" href="https://github.com/johansten/pool.futuretense.io">https://github.com/johansten/pool.futuretense.io</a>
+						So, in short -- Yes, we would like to think that you can trust us.
 					</p>
-					<ul>
-						<li>
-							<p>
-							There you should check out inflation-pool.js, to verify that the key is only used to sign
-							a setOptions-operation that sets your inflation destination to the pool accountId.
-							</p>
-						</li>
-					</ul>
 					<p>
-						After that, verify that stellar-sdk.min.js hasn't been modified:
+						If you want to be 100 per cent certain,
 					</p>
 
 					<ul>
 						<li>
-							Download and perform a checksum on the official stellar.org code
-<pre>
-$git clone --branch v0.4.0 git@github.com:stellar/bower-js-stellar-sdk.git
-$shasum -a 256 bower-js-stellar-sdk/stellar-sdk.min.js
-f76776eaf2adb63ac4a3cfec076262c1bee951fa7cf6816c4cd0da7325f541b9  bower-js-stellar-sdk/stellar-sdk.min.js
-</pre>
+							<p>
+							The website source code is published on GitHub, at <a target="_blank" href="https://github.com/johansten/pool.futuretense.io">https://github.com/johansten/pool.futuretense.io</a>.
+							There you should check out inflation-pool.js, to verify that the key is only used to sign a setOptions-operation that sets your inflation destination to the pool accountId.
+							</p>
 						</li>
+
 						<li>
-							Download the version we're hosting, and compare
-<pre>
-$wget https://pool.futuretense.io/bower_components/stellar-sdk/stellar-sdk.min.js
-$shasum -a 256 stellar-sdk.min.js
-f76776eaf2adb63ac4a3cfec076262c1bee951fa7cf6816c4cd0da7325f541b9  stellar-sdk.min.js
-</pre>
+							<p>
+								Stellar-sdk.min.js is retrieved from rawgit.com, which serves as a CDN/Proxy.  Rawgit gets it straight from the stellar.org repository on GitHub. A "Subresource Integrity" hash is then used to make sure the file isn't modified anywhere along the way.
+							</p>
 						</li>
 					</ul>
 
@@ -141,8 +128,8 @@ f76776eaf2adb63ac4a3cfec076262c1bee951fa7cf6816c4cd0da7325f541b9  stellar-sdk.mi
 
 		<div style="height:60px"></div>
 
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/stellar-sdk/stellar-sdk.min.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.0.min.js" integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk" crossorigin="anonymous"></script>
+		<script src="https://cdn.rawgit.com/stellar/bower-js-stellar-sdk/v0.4.1/stellar-sdk.min.js" integrity="sha384-o0gSHWKsqPWa1fwmBpf7w92yw5dgreSbPeIWeFbUk3Go8mXXd3jPZ5Ly1at0lzez" crossorigin="anonymous"></script>
 		<script src="inflation-pool.js"></script>
 		<script>
 			function format(amount, decimals) {
