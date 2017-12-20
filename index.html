@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="style.css" />
 	</head>
 
-	<body>
+	<body onload="ledgerConnect()">
 		<div class="container">
 
 			<div style="height:30px"></div>
@@ -69,6 +69,12 @@
 							<input id="seed" type="text" placeholder="Secret key">
 							<button id="submit" class="btn btn-success" type="button" onclick="signup()">Sign up</button>
 						</div>
+						<p> Or </p>
+						<div style="display:inline-block">
+							<input id="bip32Path" type="text" value="44'/148'/0'" placeholder="BIP32 Path">
+							<button id="ledgersignup" class="btn btn-success" type="button" onclick="signup(true)" disabled="true">Sign up with Ledger</button>
+						</div>
+
 						<div id="msg"></div>
 					</form>
 				</div>
@@ -129,9 +135,16 @@
 		<div style="height:60px"></div>
 
 		<script src="https://code.jquery.com/jquery-2.2.0.min.js" integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk" crossorigin="anonymous"></script>
-		<script src="https://cdn.rawgit.com/stellar/bower-js-stellar-sdk/v0.4.1/stellar-sdk.min.js" integrity="sha384-o0gSHWKsqPWa1fwmBpf7w92yw5dgreSbPeIWeFbUk3Go8mXXd3jPZ5Ly1at0lzez" crossorigin="anonymous"></script>
+		<script src="https://cdn.rawgit.com/stellar/bower-js-stellar-sdk/v0.7.7/stellar-sdk.min.js" integrity="sha384-0QTY0NaLV4blBYhh6vpXILUFob/kkpY11Hn2kZMR7FOehhMEhH0fQQVmzNUJF7pO" crossorigin="anonymous"></script>
+		<script src="stellar-ledger-api.min.js"></script>
 		<script src="inflation-pool.js"></script>
 		<script>
+			function ledgerConnect() {
+              new StellarLedger.Api(new StellarLedger.comm(Number.MAX_VALUE)).connect(
+                function() { $('#ledgersignup').attr('disabled', false); }, function(err) { console.error(err) }
+              );
+			}
+
 			function format(amount, decimals) {
 				var t = (parseInt(amount) / 10000000.0).toFixed(decimals).split('.');
 				var val = t[0];
@@ -169,16 +182,28 @@
 				}
 			}
 
-			var signup = function () {
-				var seed = $('#seed').val();
-				setInflationDest(seed, 'GBL7AE2HGRNQSPWV56ZFLILXNT52QWSMOQGDBBXYOP7XKMQTCKVMX2ZL')
-				.then(function (res) {
-					$('#msg').text('Successful signup!');
-					updateStats();
-				})
-				.catch(function (err) {
-					$('#msg').text('Signup failed.');
-				});
+			var signup = function (ledger) {
+			    if (!ledger) {
+                    var seed = $('#seed').val();
+                    setInflationDest(seed, 'GBL7AE2HGRNQSPWV56ZFLILXNT52QWSMOQGDBBXYOP7XKMQTCKVMX2ZL')
+					.then(function (res) {
+                      $('#msg').text('Successful signup!');
+                      updateStats();
+                    }).catch(function (err) {
+                        $('#msg').text('Signup failed.');
+                      });
+
+                } else {
+			        var bip32Path = $('#bip32Path').val();
+			        setInflationDestLedger(bip32Path, 'GBL7AE2HGRNQSPWV56ZFLILXNT52QWSMOQGDBBXYOP7XKMQTCKVMX2ZL')
+                      .then(function (res) {
+                        $('#msg').text('Successful signup!');
+                        updateStats();
+                      }).catch(function (err) {
+                        console.log(err);
+                      $('#msg').text('Signup failed.');
+                    });
+				}
 			};
 
 			$('#submit').attr('disabled', true);
